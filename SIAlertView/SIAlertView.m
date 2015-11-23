@@ -306,6 +306,13 @@ static SIAlertView *__si_alert_current_view;
             frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
         }
         
+        if(UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+        {
+            tempSize = frame.size.width;
+            frame.size.width = frame.size.height;
+            frame.size.height = tempSize;
+        }
+        
         __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:frame
                                                                              andStyle:[SIAlertView currentAlertView].backgroundStyle];
         [__si_alert_background_window makeKeyAndVisible];
