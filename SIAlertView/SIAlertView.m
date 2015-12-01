@@ -61,6 +61,7 @@ static SIAlertView *__si_alert_current_view;
 + (void)setAnimating:(BOOL)animating;
 
 + (void)showBackground;
++ (CGRect)getFixedFrameForInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation;
 + (void)hideBackgroundAnimated:(BOOL)animated;
 
 - (void)setup;
@@ -125,6 +126,23 @@ static SIAlertView *__si_alert_current_view;
 
 @end
 
+@interface MyRootViewController : UIViewController
+@end
+
+@implementation MyRootViewController
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+@end
+
 #pragma mark - SIAlertItem
 
 @interface SIAlertItem : NSObject
@@ -167,21 +185,7 @@ static SIAlertView *__si_alert_current_view;
     [self.alertView resetTransition];
     [self.alertView invalidateLayout];
     
-    CGRect frame = [[UIScreen mainScreen] bounds];
-    if([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
-    {
-        frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
-    }
-    
-    int tempSize;
-    if(UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
-    {
-        tempSize = frame.size.width;
-        frame.size.width = frame.size.height;
-        frame.size.height = tempSize;
-    }
-    
-    [__si_alert_background_window setFrame:frame];
+    [__si_alert_background_window setFrame:[SIAlertView getFixedFrameForInterfaceOrientation:toInterfaceOrientation]];
 }
 
 #ifdef __IPHONE_7_0
@@ -316,22 +320,9 @@ static SIAlertView *__si_alert_current_view;
 {
     if (!__si_alert_background_window) {
         
-        CGRect frame = [[UIScreen mainScreen] bounds];
-        if([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
-        {
-            frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
-        }
-        
-        int tempSize;
-        if(UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
-        {
-            tempSize = frame.size.width;
-            frame.size.width = frame.size.height;
-            frame.size.height = tempSize;
-        }
-        
-        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:frame
+        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:[self getFixedFrameForInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]]
                                                                              andStyle:[SIAlertView currentAlertView].backgroundStyle];
+        __si_alert_background_window.rootViewController = [[MyRootViewController alloc]init];
         [__si_alert_background_window makeKeyAndVisible];
         __si_alert_background_window.alpha = 0;
         [UIView animateWithDuration:0.3
@@ -339,6 +330,29 @@ static SIAlertView *__si_alert_current_view;
                              __si_alert_background_window.alpha = 1;
                          }];
     }
+    
+    NSLog(@"test fixed alert7 : %f / %f", __si_alert_background_window.frame.size.width, __si_alert_background_window.frame.size.height);
+}
+
++ (CGRect)getFixedFrameForInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    int tempSize;
+    CGRect frame = [[UIScreen mainScreen] bounds];
+    if([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
+    {
+        frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
+    }
+    
+    if(UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+    {
+        tempSize = frame.size.width;
+        frame.size.width = frame.size.height;
+        frame.size.height = tempSize;
+    }
+    
+    NSLog(@"test fixed alert : %f / %f", frame.size.width, frame.size.height);
+    
+    return frame;
 }
 
 + (void)hideBackgroundAnimated:(BOOL)animated
