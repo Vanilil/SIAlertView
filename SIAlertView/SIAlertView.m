@@ -331,7 +331,6 @@ static SIAlertView *__si_alert_current_view;
                          }];
     }
     
-    NSLog(@"test fixed alert7 : %f / %f", __si_alert_background_window.frame.size.width, __si_alert_background_window.frame.size.height);
 }
 
 + (CGRect)getFixedFrameForInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -349,9 +348,7 @@ static SIAlertView *__si_alert_current_view;
         frame.size.width = frame.size.height;
         frame.size.height = tempSize;
     }
-    
-    NSLog(@"test fixed alert : %f / %f", frame.size.width, frame.size.height);
-    
+        
     return frame;
 }
 
