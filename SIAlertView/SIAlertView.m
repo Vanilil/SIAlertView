@@ -273,7 +273,7 @@ static SIAlertView *__si_alert_current_view;
 
 - (id)init
 {
-    return [self initWithTitle:nil andMessage:nil andType:Default];
+    return [self initWithTitle:nil andMessage:nil];
 }
 
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message
