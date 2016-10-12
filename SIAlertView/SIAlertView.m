@@ -8,6 +8,8 @@
 
 #import "SIAlertView.h"
 #import "UIWindow+SIUtils.h"
+#import "SIAlertViewStyleKit.h"
+
 #import <QuartzCore/QuartzCore.h>
 
 NSString *const SIAlertViewWillShowNotification = @"SIAlertViewWillShowNotification";
@@ -22,6 +24,7 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define CANCEL_BUTTON_PADDING_TOP 5
 #define CONTENT_PADDING_LEFT 10
 #define CONTENT_PADDING_TOP 12
+#define CONTENT_PADDING_TOP_VECTOR 45
 #define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 44
 #define CONTAINER_WIDTH 300
@@ -270,7 +273,7 @@ static SIAlertView *__si_alert_current_view;
 
 - (id)init
 {
-    return [self initWithTitle:nil andMessage:nil];
+    return [self initWithTitle:nil andMessage:nil andType:Default];
 }
 
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message
@@ -283,6 +286,76 @@ static SIAlertView *__si_alert_current_view;
         self.items = [[NSMutableArray alloc] init];
     }
     return self;
+}
+
+- (void) setStyleVector:(SIAlertViewVectorStyle) style
+{
+    switch (style)
+    {
+        case Default:
+            self.alertViewWithVector = NO;
+            break;
+            
+        case Success:
+            self.alertViewWithVector = YES;
+            self.tintColor = [UIColor colorWithRed:0.133 green:0.709 blue:0.450 alpha:1];
+            self.imageVector = SIAlertViewStyleKit.imageOfCheckmark;
+            break;
+            
+        case Error:
+            self.alertViewWithVector = YES;
+            self.tintColor = [UIColor colorWithRed:193/255 green:39/255 blue:45/255 alpha:1];//UIColorFromHEX(0xC1272D);
+            self.imageVector = SIAlertViewStyleKit.imageOfCross;
+            break;
+            
+        case Notice:
+            self.alertViewWithVector = YES;
+            self.tintColor = [UIColor colorWithRed:114/255 green:115/255 blue:117/255 alpha:1];//UIColorFromHEX(0x727375);
+            self.imageVector = SIAlertViewStyleKit.imageOfNotice;
+            break;
+            
+        case Warning:
+            self.alertViewWithVector = YES;
+            self.tintColor = [UIColor colorWithRed:255/255 green:209/255 blue:16/255 alpha:1];//UIColorFromHEX(0xFFD110);
+            self.imageVector = SIAlertViewStyleKit.imageOfWarning;
+            break;
+            
+        case Info:
+            self.alertViewWithVector = YES;
+            self.tintColor = [UIColor colorWithRed:40/255 green:102/255 blue:191/255 alpha:1];//UIColorFromHEX(0x2866BF);
+            self.imageVector = SIAlertViewStyleKit.imageOfInfo;
+            break;
+            
+        case Edit:
+            self.alertViewWithVector = YES;
+            self.tintColor = [UIColor colorWithRed:164/255 green:41/255 blue:255/255 alpha:1];//UIColorFromHEX(0xA429FF);
+            self.imageVector = SIAlertViewStyleKit.imageOfEdit;
+            break;
+            
+        case Waiting:
+            self.alertViewWithVector = YES;
+            self.tintColor = [UIColor colorWithRed:108/255 green:18/255 blue:93/255 alpha:1];//UIColorFromHEX(0x6c125d);
+            break;
+            
+        case Question:
+            self.alertViewWithVector = YES;
+            self.tintColor = [UIColor colorWithRed:114/255 green:115/255 blue:117/255 alpha:1];//UIColorFromHEX(0x727375);
+            self.imageVector = SIAlertViewStyleKit.imageOfQuestion;
+            break;
+            
+        case Custom:
+            self.alertViewWithVector = YES;
+            self.tintColor = [UIColor whiteColor];
+            self.imageVector = nil;
+            break;
+    }
+}
+
+- (void) setCustomImage:(UIImage *) image andColor:(UIColor *) color
+{
+    
+    self.tintColor = color;
+    self.imageVector = image;
 }
 
 #pragma mark - Class methods
@@ -764,7 +837,7 @@ static SIAlertView *__si_alert_current_view;
     self.containerView.frame = CGRectMake(left, top, CONTAINER_WIDTH, height);
     self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
     
-    CGFloat y = CONTENT_PADDING_TOP;
+    CGFloat y = self.alertViewWithVector ? CONTENT_PADDING_TOP_VECTOR : CONTENT_PADDING_TOP;
     if (self.titleLabel) {
         self.titleLabel.text = self.title;
         CGFloat height = [self heightForTitleLabel];
@@ -772,7 +845,7 @@ static SIAlertView *__si_alert_current_view;
         y += height;
     }
     if (self.messageLabel) {
-        if (y > CONTENT_PADDING_TOP) {
+        if (y > self.alertViewWithVector ? CONTENT_PADDING_TOP_VECTOR : CONTENT_PADDING_TOP) {
             y += GAP;
         }
         self.messageLabel.text = self.message;
@@ -781,7 +854,7 @@ static SIAlertView *__si_alert_current_view;
         y += height;
     }
     if (self.items.count > 0) {
-        if (y > CONTENT_PADDING_TOP) {
+        if (y > self.alertViewWithVector ? CONTENT_PADDING_TOP_VECTOR : CONTENT_PADDING_TOP) {
             y += GAP;
         }
         if (self.items.count == 2 && self.buttonsListStyle == SIAlertViewButtonsListStyleNormal) {
@@ -805,22 +878,52 @@ static SIAlertView *__si_alert_current_view;
             }
         }
     }
+    
+    /** Enhanced AlertView **/
+    self.circleLayer = [CAShapeLayer layer];
+    [self.circleLayer setPath:[[UIBezierPath bezierPathWithOvalInRect:CGRectMake(self.containerView.bounds.size.width/2 - 33.0f, -33.0f, 66.0f, 66.0f)] CGPath]];
+    [self.circleLayer setFillColor:[UIColor whiteColor].CGColor];
+    
+    UIView *alertViewVector = [[UIView alloc] init];
+    UIImageView *alertViewVectorImg = [[UIImageView alloc] init];
+    alertViewVector.frame = CGRectMake(self.containerView.bounds.size.width/2 - 30.0f,
+                                       -30.0f,
+                                       60.0f,
+                                       60.0f);
+    alertViewVectorImg.frame = CGRectMake(20,
+                                          20,
+                                          20.0f,
+                                          20.0f);
+    
+    [alertViewVector addSubview:alertViewVectorImg];
+    
+    alertViewVector.layer.cornerRadius = alertViewVector.bounds.size.height / 2;
+    
+    alertViewVector.userInteractionEnabled = 0;
+    [alertViewVectorImg setImage:self.imageVector];
+    alertViewVector.backgroundColor = self.tintColor;
+    
+    if (self.alertViewWithVector) {
+        [self.containerView.layer addSublayer:self.circleLayer];
+        [self.containerView addSubview:alertViewVector];
+    }
+    /***/
 }
 
 - (CGFloat)preferredHeight
 {
-    CGFloat height = CONTENT_PADDING_TOP;
+    CGFloat height = self.alertViewWithVector ? CONTENT_PADDING_TOP_VECTOR : CONTENT_PADDING_TOP;
     if (self.title) {
         height += [self heightForTitleLabel];
     }
     if (self.message) {
-        if (height > CONTENT_PADDING_TOP) {
+        if (height > self.alertViewWithVector ? CONTENT_PADDING_TOP_VECTOR : CONTENT_PADDING_TOP) {
             height += GAP;
         }
         height += [self heightForMessageLabel];
     }
     if (self.items.count > 0) {
-        if (height > CONTENT_PADDING_TOP) {
+        if (height > self.alertViewWithVector ? CONTENT_PADDING_TOP_VECTOR : CONTENT_PADDING_TOP) {
             height += GAP;
         }
         if (self.items.count <= 2 && self.buttonsListStyle == SIAlertViewButtonsListStyleNormal) {

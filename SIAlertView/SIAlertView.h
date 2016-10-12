@@ -37,6 +37,19 @@ typedef NS_ENUM(NSInteger, SIAlertViewTransitionStyle) {
     SIAlertViewTransitionStyleDropDown
 };
 
+typedef NS_ENUM(NSInteger, SIAlertViewVectorStyle) {
+    Default = 0,
+    Success,
+    Error,
+    Notice,
+    Warning,
+    Info,
+    Edit,
+    Waiting,
+    Question,
+    Custom
+};
+
 @class SIAlertView;
 typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
@@ -44,6 +57,9 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *message;
+
+@property (nonatomic, copy) UIImage *imageVector;
+@property (nonatomic, copy) UIColor *tintColor;
 
 @property (nonatomic, assign) SIAlertViewTransitionStyle transitionStyle; // default is SIAlertViewTransitionStyleSlideFromBottom
 @property (nonatomic, assign) SIAlertViewBackgroundStyle backgroundStyle; // default is SIAlertViewBackgroundStyleGradient
@@ -56,7 +72,11 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
 @property (nonatomic, readonly, getter = isVisible) BOOL visible;
 
+@property (nonatomic, assign) BOOL alertViewWithVector;
+
 @property (nonatomic, readonly, getter = isParallaxEffectEnabled) BOOL enabledParallaxEffect;
+
+@property (nonatomic, strong) CAShapeLayer *circleLayer;
 
 @property (nonatomic, strong) UIColor *viewBackgroundColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *titleColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
@@ -75,7 +95,10 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 - (void)setDestructiveButtonImage:(UIImage *)destructiveButtonImage forState:(UIControlState)state NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message;
+- (void) setStyleVector:(SIAlertViewVectorStyle) style;
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler;
+- (void) setCustomImage:(UIImage *) image andColor:(UIColor *) color;
+
 
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;
