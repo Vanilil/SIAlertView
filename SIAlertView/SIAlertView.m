@@ -304,42 +304,42 @@ static SIAlertView *__si_alert_current_view;
             
         case Error:
             self.alertViewWithVector = YES;
-            self.tintColor = [UIColor colorWithRed:193/255 green:39/255 blue:45/255 alpha:1];//UIColorFromHEX(0xC1272D);
+            self.tintColor = [UIColor colorWithRed:0.756 green:0.152 blue:0.176 alpha:1];//UIColorFromHEX(0xC1272D);
             self.imageVector = SIAlertViewStyleKit.imageOfCross;
             break;
             
         case Notice:
             self.alertViewWithVector = YES;
-            self.tintColor = [UIColor colorWithRed:114/255 green:115/255 blue:117/255 alpha:1];//UIColorFromHEX(0x727375);
+            self.tintColor = [UIColor colorWithRed:0.447 green:0.450 blue:0.458 alpha:1];//UIColorFromHEX(0x727375);
             self.imageVector = SIAlertViewStyleKit.imageOfNotice;
             break;
             
         case Warning:
             self.alertViewWithVector = YES;
-            self.tintColor = [UIColor colorWithRed:255/255 green:209/255 blue:16/255 alpha:1];//UIColorFromHEX(0xFFD110);
+            self.tintColor = [UIColor colorWithRed:1 green:0.819 blue:0.062 alpha:1];//UIColorFromHEX(0xFFD110);
             self.imageVector = SIAlertViewStyleKit.imageOfWarning;
             break;
             
         case Info:
             self.alertViewWithVector = YES;
-            self.tintColor = [UIColor colorWithRed:40/255 green:102/255 blue:191/255 alpha:1];//UIColorFromHEX(0x2866BF);
+            self.tintColor = [UIColor colorWithRed:0.156green:0.4 blue:0.749alpha:1];//UIColorFromHEX(0x2866BF);
             self.imageVector = SIAlertViewStyleKit.imageOfInfo;
             break;
             
         case Edit:
             self.alertViewWithVector = YES;
-            self.tintColor = [UIColor colorWithRed:164/255 green:41/255 blue:255/255 alpha:1];//UIColorFromHEX(0xA429FF);
+            self.tintColor = [UIColor colorWithRed:0.643 green:0.160 blue:1 alpha:1];//UIColorFromHEX(0xA429FF);
             self.imageVector = SIAlertViewStyleKit.imageOfEdit;
             break;
             
         case Waiting:
             self.alertViewWithVector = YES;
-            self.tintColor = [UIColor colorWithRed:108/255 green:18/255 blue:93/255 alpha:1];//UIColorFromHEX(0x6c125d);
+            self.tintColor = [UIColor colorWithRed:0.423 green:0.070 blue:0.364 alpha:1];//UIColorFromHEX(0x6c125d);
             break;
             
         case Question:
             self.alertViewWithVector = YES;
-            self.tintColor = [UIColor colorWithRed:114/255 green:115/255 blue:117/255 alpha:1];//UIColorFromHEX(0x727375);
+            self.tintColor = [UIColor colorWithRed:0.447 green:0.450 blue:0.458 alpha:1];//UIColorFromHEX(0x727375);
             self.imageVector = SIAlertViewStyleKit.imageOfQuestion;
             break;
             
