@@ -322,7 +322,7 @@ static SIAlertView *__si_alert_current_view;
             
         case Info:
             self.alertViewWithVector = YES;
-            self.tintColor = [UIColor colorWithRed:0.156green:0.4 blue:0.749alpha:1];//UIColorFromHEX(0x2866BF);
+            self.tintColor = [UIColor colorWithRed:0.156 green:0.400 blue:0.749 alpha:1];//UIColorFromHEX(0x2866BF);
             self.imageVector = SIAlertViewStyleKit.imageOfInfo;
             break;
             
