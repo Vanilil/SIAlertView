@@ -19,7 +19,8 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 
 #define DEBUG_LAYOUT 0
 
-#define MESSAGE_MIN_LINE_COUNT 0
+#define MESSAGE_MIN_LINE_COUNT 1
+#define MESSAGE_MAX_LINE_COUNT 15
 #define GAP 10
 #define CANCEL_BUTTON_PADDING_TOP 5
 #define CONTENT_PADDING_LEFT 10
@@ -977,6 +978,7 @@ static SIAlertView *__si_alert_current_view;
 - (CGFloat)heightForMessageLabel
 {
     CGFloat minHeight = MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight;
+    CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
     if (self.messageLabel) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -990,7 +992,7 @@ static SIAlertView *__si_alert_current_view;
                                                         attributes:attributes
                                                            context:nil];
         
-        return MAX(minHeight, ceil(rect.size.height));
+        return MAX(minHeight, MIN(maxHeight, ceil(rect.size.height)));
         
     }
     
