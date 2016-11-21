@@ -860,9 +860,9 @@ static SIAlertView *__si_alert_current_view;
         }
         if (self.items.count == 2 && self.buttonsListStyle == SIAlertViewButtonsListStyleNormal) {
             CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2 - GAP) * 0.5;
-            UIButton *button = self.buttons[0];
+            UIButton *button = (self.buttons.count > 0) ? self.buttons[0] : [[UIButton alloc] init];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, BUTTON_HEIGHT);
-            button = self.buttons[1];
+            button = (self.buttons.count > 1) ? self.buttons[1] : button;
             button.frame = CGRectMake(CONTENT_PADDING_LEFT + width + GAP, y, width, BUTTON_HEIGHT);
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
