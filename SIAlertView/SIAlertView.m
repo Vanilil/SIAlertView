@@ -491,7 +491,7 @@ static SIAlertView *__si_alert_current_view;
     
     if ([SIAlertView currentAlertView].isVisible) {
         SIAlertView *alert = [SIAlertView currentAlertView];
-        [alert dismissAnimated:YES cleanup:NO];
+        //[alert dismissAnimated:YES cleanup:NO];
         return;
     }
     
@@ -536,7 +536,7 @@ static SIAlertView *__si_alert_current_view;
         
         NSInteger index = [[SIAlertView sharedQueue] indexOfObject:self];
         if (index < [SIAlertView sharedQueue].count - 1) {
-            [self dismissAnimated:YES cleanup:NO]; // dismiss to show next alert view
+            //[self dismissAnimated:YES cleanup:NO]; // dismiss to show next alert view
         }
     }];
 }
