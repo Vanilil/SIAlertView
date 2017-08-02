@@ -112,9 +112,6 @@ static UIImage *imageOfQuestion = nil;
 
 + (void)drawWarning
 {
-    // Color Declarations
-    UIColor *greyColor = [UIColor colorWithRed:0.236 green:0.236 blue:0.236 alpha:1.000];
-    
     // Warning Group
     // Warning Circle Drawing
     UIBezierPath *warningCirclePath = [[UIBezierPath alloc] init];
@@ -130,7 +127,7 @@ static UIImage *imageOfQuestion = nil;
     [warningCirclePath closePath];
     warningCirclePath.miterLimit = 4;
     
-    [greyColor setFill];
+    [[UIColor whiteColor] setFill];
     [warningCirclePath fill];
     
     
@@ -150,15 +147,12 @@ static UIImage *imageOfQuestion = nil;
     [warningShapePath closePath];
     warningShapePath.miterLimit = 4;
     
-    [greyColor setFill];
+    [[UIColor whiteColor] setFill];
     [warningShapePath fill];
 }
 
 + (void)drawInfo
 {
-    // Color Declarations
-    UIColor *color0 = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.000];
-    
     // Info Shape Drawing
     UIBezierPath *infoShapePath = [[UIBezierPath alloc] init];
     [infoShapePath moveToPoint:CGPointMake(45.66, 15.96)];
@@ -179,15 +173,12 @@ static UIImage *imageOfQuestion = nil;
     [infoShapePath addLineToPoint:CGPointMake(48, 69.41)];
     [infoShapePath closePath];
     
-    [color0 setFill];
+    [[UIColor whiteColor] setFill];
     [infoShapePath fill];
 }
 
 + (void)drawEdit
 {
-    // Color Declarations
-    UIColor *color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-    
     // Edit shape Drawing
     UIBezierPath *editPathPath = [[UIBezierPath alloc] init];
     [editPathPath moveToPoint:CGPointMake(71, 2.7)];
@@ -232,15 +223,12 @@ static UIImage *imageOfQuestion = nil;
     
     editPathPath.miterLimit = 4;
     editPathPath.usesEvenOddFillRule = YES;
-    [color setFill];
+    [[UIColor whiteColor] setFill];
     [editPathPath fill];
 }
 
 + (void)drawQuestion
 {
-    // Color Declarations
-    UIColor *color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-    
     // Questionmark Shape Drawing
     UIBezierPath *questionShapePath = [[UIBezierPath alloc] init];
     [questionShapePath moveToPoint: CGPointMake(33.75, 54.1)];
@@ -265,7 +253,7 @@ static UIImage *imageOfQuestion = nil;
     [questionShapePath addLineToPoint: CGPointMake(33.15, 75.4)];
     [questionShapePath closePath];
     
-    [color setFill];
+    [[UIColor whiteColor] setFill];
     [questionShapePath fill];
 }
 
